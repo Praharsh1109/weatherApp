@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-export async function fetchData(setCityTemp: React.Dispatch<React.SetStateAction<string>>) {
+async function fetchData(city: string, setCityTemp: React.Dispatch<React.SetStateAction<string>>) {
   try {
-    const result = await fetch("http://localhost:5000/info");
+    const result = await fetch(`http://localhost:5000/info?city=${encodeURIComponent(city)}`);
     const finalResult = await result.json();
     const temperature = finalResult.temperature;
     setCityTemp(temperature);
@@ -17,7 +17,7 @@ function App() {
   const [cityTemp, setCityTemp] = useState<string>("");
 
   const handleClick = () => {
-    fetchData(setCityTemp);
+    fetchData(city, setCityTemp);
   };
 
   return (
