@@ -1,12 +1,15 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import fetch from 'node-fetch';
+// import express, { Request, Response } from 'express';
+// import cors from 'cors';
+// import fetch from 'node-fetch';
 
+
+const express = require('express')
+const cors = require('cors')
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/info", async (req: Request, res: Response) => {
+app.get("/info", async (req: any, res: any)=> {
   try {
     const { city } = req.query; // Extract city from query parameters
     if (!city) {
@@ -19,7 +22,12 @@ app.get("/info", async (req: Request, res: Response) => {
 
     const temperature = result.timelines.minutely[0].values.temperature;
     console.log(temperature);
-    res.json({ temperature });
+    if(temperature){
+      res.json({ temperature });
+    }else {
+      return "Error"
+    }
+   
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).json({ error: "Error fetching data" });
